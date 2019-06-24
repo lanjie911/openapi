@@ -3,24 +3,14 @@ var router = express.Router();
 let dbUtil = require("../../dao/dbdao");
 let md5Util = require("../../util/md5");
 
-/* GET admin listing. */
-router.get('/', function (req, res, next) {
-    if (!req.session.loginAdmin) {
-        res.send("You haven't login the system!");
-        return;
-    }
-    // console.log("req.user_acc is %s",req.query.user_acc)
-    res.render('admin/admin', req.session.loginAdmin);
-});
 
-// 这个拦截器跳转一下，很有必要
-// 302走一下判断session
 router.get('/login', function (req, res, next) {
     if (req.session.loginAdmin) {
-        res.redirect("/admin");
+        console.info("-----------------> %s",req.session.loginAdmin.mobile);
+        res.render('admin/admin', req.session.loginAdmin);
         return;
     }
-    res.send("You haven't login the system!");
+    res.redirect("../");
 });
 
 router.get('/logout', function (req, res, next) {
