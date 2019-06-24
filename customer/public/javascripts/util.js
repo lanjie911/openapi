@@ -6,11 +6,12 @@ let showWarnDialog = function (vueIntance, strMessage) {
     });
 };
 
-let showSuccessDialog = function (vueIntance, strMessage) {
+let showSuccessDialog = function (vueIntance, strMessage,invokerFunc) {
     vueIntance.$alert(strMessage, '成功', {
         confirmButtonText: "确定",
         type: "success",
-        showClose: false
+        showClose: false,
+        callback: invokerFunc
     });
 };
 

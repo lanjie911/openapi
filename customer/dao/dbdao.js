@@ -8,6 +8,10 @@ let pool = mysql.createPool({
     database: 'openapi'
 });
 
+exports.format = function(sql, arr){
+    return mysql.format(sql,arr,true);
+};
+
 exports.query = function (sql, arr, callback) {
     //建立链接
     pool.getConnection(function (err, connection) {

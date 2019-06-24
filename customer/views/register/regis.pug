@@ -16,10 +16,10 @@ block content
                         el-image(style="height:30px;width:94px;", :src="vcodeImgSrc" fit="contain" id="vlimage")
             el-row(class="regrow")
                 el-col(:span=24 class="regcol")
-                    el-input(placeholder="短信验证码", maxlength="32" style="width:126px;margin-right:5px")
+                    el-input(placeholder="短信验证码", maxlength="6" style="width:126px;margin-right:5px" v-model="smsCode")
                     el-button(icon="el-icon-s-promotion" @click="sendSMSCode") 发送
             el-row(class="regrow")
                 el-col(:span=24 class="regcol")
-                    el-button(icon="el-icon-edit-outline") 注册
+                    el-button(icon="el-icon-edit-outline" @click="regUser") 注册
     script(src='/javascripts/util.js')
     script(src='/javascripts/regis/regis.js')

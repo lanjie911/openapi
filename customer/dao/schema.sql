@@ -1,9 +1,10 @@
---注册用户表
+#注册用户表
 DROP TABLE IF EXISTS reg_user;
 CREATE TABLE reg_user(
   user_id BIGINT NOT NULL AUTO_INCREMENT COMMENT '注册用户的主键，自增',
   mobile VARCHAR(32) NOT NULL COMMENT '注册用户的手机号',
   created_time DATETIME NOT NULL DEFAULT NOW() COMMENT '注册的时间',
+  passwd VARCHAR(128) NOT NULL COMMENT '默认密码为手机号后六位',
 
   PRIMARY KEY (user_id),
   UNIQUE KEY idx_mobile(mobile)

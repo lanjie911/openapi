@@ -6,4 +6,19 @@ let checkPhone = function (strPhoneNumber) {
     return false;
 };
 
+let generateVCode = function () {
+    let a_code = "";
+    let pt = 0;
+    while (pt < 6) {
+        let iCode = Math.ceil(Math.random() * 10);
+        if (iCode >= 10) {
+            iCode = iCode - 1;
+        }
+        a_code += iCode;
+        pt++;
+    }
+    return a_code;
+};
+
 exports.checkPhone = checkPhone;
+exports.generateVCode = generateVCode;
