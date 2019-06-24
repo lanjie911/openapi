@@ -4,7 +4,15 @@ let showWarnDialog = function (vueIntance, strMessage) {
         type: "warning",
         showClose: false
     });
-}
+};
+
+let showSuccessDialog = function (vueIntance, strMessage) {
+    vueIntance.$alert(strMessage, '成功', {
+        confirmButtonText: "确定",
+        type: "success",
+        showClose: false
+    });
+};
 
 let REGUtil = {
     checkPhone: function (strPhoneNumber) {

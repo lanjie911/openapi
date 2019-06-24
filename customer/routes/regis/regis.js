@@ -21,13 +21,21 @@ router.post('/reg_sms_vcode', function (req, res, next) {
         req.session.captcha = null;
         return;
     }
+
     // 验证手机号
     if(!validator.checkPhone(mobile)){
         res.json({ rs: 'MBL_ERR', text:'手机号码格式不正确' });
         return;
     }
 
-    res.json({ rs: 'OK', text:'验证码OK' });
+    // 是否已经注册过
+    String isRegSQL = "SELECT * FROM ";
+
+    // 上一次发送的时长
+
+    // 都没问题的话就发送，调用Java服务
+
+    res.json({ rs: 'OK', text:'验证码已发送到手机' });
 });
 
 module.exports = router;

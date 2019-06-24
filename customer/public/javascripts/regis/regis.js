@@ -21,19 +21,19 @@ let vInstance = new Vue({
                 showWarnDialog(this,"图形验证码不能为空");
                 return;
             }
+
             axios.post("/regis/reg_sms_vcode", {
                 mobile: mobile,
                 vcode: vCode.toLowerCase()
             }).then(function (resp) {
                 console.log(resp.data);
                 let rsdata = resp.data;
-                showWarnDialog(this,rsdata.text);
                 if (rsdata.rs == "OK") {
-                    
+                    showSuccessDialog(vInstance,rsdata.text);
                 }else{
-                    vInstance.refreshImg();
+                    showWarnDialog(vInstance,rsdata.text);
                 }
-                
+                vInstance.refreshImg();
             }).catch(resp => {
                 console.log('请求失败：' + resp.status + ',' + resp.statusText);
             });
