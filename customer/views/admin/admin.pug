@@ -1,0 +1,20 @@
+extends ../layout.pug
+block othercss
+    link(rel='stylesheet', href='/stylesheets/business/admin.css')
+block content
+    div(style="text-align:right;margin-bottom:15px;")
+        span 当前用户 #{adminName} &nbsp;&nbsp;&nbsp;&nbsp;
+        a(href="/admin/logout") 登出
+    div(id="worksarea" v-bind:style="{height: calcHeight + 'px'}" class="div-border")
+        el-container(v-bind:style="{height: containerHeight + 'px'}")
+            el-aside(v-bind:style="{height: asideHeight + 'px'}")
+                include lefttree.pug
+            el-main(v-bind:style="{height: mainHeight + 'px'}")
+                include mgtadmdialog.pug
+                el-tabs(v-model="activeTabIndex" type="card" closable=true @tab-remove="tabRemoved" @tab-click="tabClicked")
+                    include reqdetail.pug
+                    include tuiguang.pug
+                    include vcode.pug
+                    include usermgt.pug
+                    include resetpwd.pug
+    script(src="/javascripts/business/admin.js")
