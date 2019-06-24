@@ -1,5 +1,25 @@
 extends ../layout.pug
 block othercss
-    
+    link(rel='stylesheet', href='/stylesheets/business/reg.css')
 block content
-    div regis
+    el-row(id="mainws")
+        el-col
+            el-row(class="regrow")
+                el-col(:span=24, class="regcol" style="font-size:2em") 聚合开发者平台注册
+            el-row(class="regrow")
+                el-col(:span=24, class="regcol")
+                    el-input(placeholder="请输入要注册的手机号", maxlength="11" class="reginput" v-model="mobileNum")
+            el-row(class="regrow")
+                el-col(:span=24 class="regcol")
+                    el-input(placeholder="图形验证码", maxlength="6" style="width:126px;" v-model="verifyCode")
+                    a(src="#" @click="refreshImg")
+                        el-image(style="height:30px;width:94px;", :src="vcodeImgSrc" fit="contain" id="vlimage")
+            el-row(class="regrow")
+                el-col(:span=24 class="regcol")
+                    el-input(placeholder="短信验证码", maxlength="32" style="width:126px;margin-right:5px")
+                    el-button(icon="el-icon-s-promotion" @click="sendSMSCode") 发送
+            el-row(class="regrow")
+                el-col(:span=24 class="regcol")
+                    el-button(icon="el-icon-edit-outline") 注册
+    script(src='/javascripts/util.js')
+    script(src='/javascripts/regis/regis.js')
