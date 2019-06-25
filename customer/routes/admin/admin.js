@@ -62,9 +62,8 @@ router.post('/qry_app_list', function (req, res, next) {
     let sql = "SELECT * FROM app_service";
     let paras = [];
 
-    let promize = dbUtil.syncQuery(sql,paras);
-    promize.then((res,rej)=>{
-        console.info(res);
+    dbUtil.query(sql,paras,function(rs,flds){
+        res.json(rs);
     });
 });
 

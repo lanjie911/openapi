@@ -37,6 +37,42 @@ CREATE TABLE app_service (
   UNIQUE KEY idx_app_code(app_code)
 );
 
+#实名认证表-个人
+DROP TABLE IF EXISTS real_name_p_verify;
+CREATE TABLE real_name_p_verify(
+  real_id BIGINT NOT NULL AUTO_INCREMENT COMMENT '',
+  person_name VARCHAR(32) NULL COMMENT '身份证上的名字',
+  person_id   VARCHAR(32) NULL COMMENT '身份证号码',
+  person_id_url VARCHAR(128) NULL COMMENT '身份证图片存储的路径',
+  creator_id BIGINT NOT NULL COMMENT '申请人id',
+  created_time DATETIME NOT NULL DEFAULT NOW() COMMENT '申请时间',
+  auditor_id BIGINT NULL COMMENT '个人审核员id',
+  audit_stat SMALLINT NOT NULL DEFAULT 0 COMMENT '审核状态',
+  audit_desc VARCHAR(128) NULL COMMENT '评语',
+  audit_time DATETIME NULL COMMENT '审核时间',
+
+  PRIMARY KEY (real_id),
+  UNIQUE KEY idx_creator_id(creator_id)
+);
+
+#实名认证表-企业
+DROP TABLE IF EXISTS real_name_e_verify;
+CREATE TABLE real_name_e_verify(
+  real_id BIGINT NOT NULL AUTO_INCREMENT COMMENT '',
+  enterprise_name VARCHAR(64) NULL COMMENT '公司名称',
+  enterprise_id VARCHAR(32) NULL COMMENT '公司信用码',
+  enterprise_id_url VARCHAR(128) NULL COMMENT '公司营业执照的路径',
+  creator_id BIGINT NOT NULL COMMENT '申请人id',
+  created_time DATETIME NOT NULL DEFAULT NOW() COMMENT '申请时间',
+  auditor_id BIGINT NULL COMMENT '',
+  audit_stat SMALLINT NOT NULL DEFAULT 0 COMMENT '',
+  audit_desc VARCHAR(128) NULL COMMENT '',
+  audit_time DATETIME NULL COMMENT '',
+
+  PRIMARY KEY (real_id),
+  UNIQUE KEY idx_creator_id(creator_id)
+);
+
 #企业表
 DROP TABLE IF EXISTS merchant;
 CREATE TABLE `merchant` (

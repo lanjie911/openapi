@@ -40,6 +40,7 @@ var accessLogStream = FileStreamRotator.getStream({
 // 在实际中，如果有多个路由，在这里定义
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var uloadRouter = require('./routes/upload');
 var adminRouter = require('./routes/admin/admin');
 var regisRouter = require('./routes/regis/regis');
 
@@ -81,6 +82,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 app.use('/regis', regisRouter);
+app.use('/upload', uloadRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

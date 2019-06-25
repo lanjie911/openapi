@@ -29,12 +29,15 @@ let vueInstance = new Vue({
             person: {
                 name: "",
                 idNo: "",
-                idImgSrc: "/images/idexample.jpeg"
+                idImgSrc: ""
             },
             enterprise: {
                 name: "",
                 idNo: "",
-                idImgSrc: ""
+                idImgSrc: "/images/yyzz.jpeg"
+            },
+            uploadData: {
+                token: "290"
             }
         }
     },
@@ -133,6 +136,29 @@ let vueInstance = new Vue({
         },
         createNewApp: function () {
             this.appPanel.isShow = true;
+        },
+        // 处理文件上传
+        beforeUpload: function(file){
+            let append = file.type;
+            let a = (append == "image/png");
+            let b = (append == "image/jpg");
+            let c = (append == "image/jpeg");
+            let d = a||b||c;
+            if(!d){
+                showWarnDialog(this,"图片只能是png|jpg|jpeg格式");
+                return false;
+            }
+
+            let fz = file.size / 1024 / 1024;
+            if(fz > 1){
+                showWarnDialog(this,"图片最大不能超过1M");
+                return false;
+            }
+            
+            return true;
+        },
+        onUploadOK: function(res,file){
+            console.log(res);
         }
     }
 });
