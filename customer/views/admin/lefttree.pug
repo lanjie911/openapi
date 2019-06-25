@@ -12,11 +12,11 @@ el-menu(:default-openeds="['1','2','3']" v-bind:style="{height: asideHeight + 'p
             span 系统设置
         el-menu-item-group
             el-menu-item(index="2-2" @click="gofunc(2)") 用户管理
-            el-menu-item(index="2-3" @click="gofunc(3)") 重置密码
+            el-menu-item(index="2-3" @click="gofunc(3)") 修改密码
     el-submenu(index="3")
         template(slot="title")
             i(class="el-icon-warning")
             span 隐私和安全
         el-menu-item-group
-            el-menu-item(index="3-1" @click="gofunc(4)") 企业实名
+            el-menu-item(index="3-1" @click="gofunc(4)") 实名认证
             

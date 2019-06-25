@@ -1,0 +1,38 @@
+el-tab-pane(label="实名认证" name="4" style="overflow:scroll;")
+    el-row(style="border-bottom:1px solid #DDDDDD;margin:10px 10px 10px 10px")
+        el-col(:span="24")
+            el-link(type="primary") 个人开发者认证
+    el-row(style="margin-bottom:10px;")
+        el-col(:span="8") &nbsp;
+        el-col(:span="8")
+            el-input(placeholder="请输入身份证上的姓名" style="width:210px;" v-model="realName.person.name")
+        el-col(:span="8") &nbsp;
+    el-row(style="margin-bottom:10px;")
+        el-col(:span="8") &nbsp;
+        el-col(:span="8")
+            el-input(placeholder="请输入身份证号码" style="width:210px;" v-model="realName.person.idNo")
+        el-col(:span="8") &nbsp;
+    el-row(style="margin-bottom:10px;")
+        el-col(:span="8") &nbsp;
+        el-col(:span="8")
+            el-image(style="width: 210px; height: 130px" :src="realName.person.idImgSrc" fit="contain")
+        el-col(:span="8") &nbsp;
+    el-row(style="border-bottom:1px solid #DDDDDD;margin:10px 10px 10px 10px")
+        el-col(:span="24")
+            el-link(type="primary") 企业开发者认证
+    el-row(style="margin-bottom:10px;")
+        el-col(:span="8") &nbsp;
+        el-col(:span="8")
+            el-input(placeholder="请输入身份证上的姓名" style="width:210px;" v-model="realName.person.name")
+        el-col(:span="8") &nbsp;
+    el-row(style="margin-bottom:10px;")
+        el-col(:span="8") &nbsp;
+        el-col(:span="8")
+            el-input(placeholder="请输入身份证号码" style="width:210px;" v-model="realName.person.idNo")
+        el-col(:span="8") &nbsp;
+    el-row(style="margin-bottom:10px;")
+        el-col(:span="8") &nbsp;
+        el-col(:span="8")
+            el-image(style="width: 210px; height: 130px" :src="realName.person.idImgSrc" fit="contain")
+        el-col(:span="8") &nbsp;
+

@@ -13,6 +13,9 @@ exports.format = function(sql, arr){
 };
 
 exports.query = function (sql, arr, callback) {
+    // 打印
+    let tempStr = mysql.format(sql,arr,true);
+    console.info("[SQL FORMATTED]:%s",tempStr);
     //建立链接
     pool.getConnection(function (err, connection) {
         if (err) { throw err; return; }

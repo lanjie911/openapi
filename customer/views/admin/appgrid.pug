@@ -1,0 +1,19 @@
+el-tab-pane(label="应用列表" name="0")
+    el-row
+        el-col(:span=6)
+            el-input(align="right" type="input" placeholder="请输入应用编号" v-model="appGrid.app_code" style="width:210px;")
+        el-col(:span=12)
+            el-button(icon="el-icon-search" @click="qryWithCondition('request')") 查询
+            el-button(icon="el-icon-delete" @click="clearSearchConditions('request')") 清除
+        el-col(:span=6)
+            el-button(icon="el-icon-folder-add" @click="createNewApp()") 创建新应用
+    el-row(style="margin-top:10px")
+        el-col(:span=24)
+            el-table(border style="width:100%" :data="appGrid.results")
+                el-table-column(label="应用编号" width="180" class="column-title" prop="app_code")
+                el-table-column(label="服务器IP地址" width="180" class="column-title" prop="app_ip")
+                el-table-column(label="应用类型" width="180" class="column-title" prop="app_type")
+                el-table-column(label="应用描述" width="180" class="column-title" prop="app_desc")
+                el-table-column(label="应用密钥" prop="app_key")
+                el-table-column(label="创建时间" width="180" class="column-title" prop="app_date")
+            el-pagination(:current-page="appGrid.currentPage" :page-size="appGrid.pageSize" layout="total, prev, pager, next, jumper" :total="appGrid.totalCount" class="rqpagination" @current-change="goPage")

@@ -10,7 +10,7 @@ CREATE TABLE reg_user(
   UNIQUE KEY idx_mobile(mobile)
 );
 
---注册发短信表
+#注册发短信表
 DROP TABLE IF EXISTS reg_sms_vcode;
 CREATE TABLE reg_sms_vcode(
   mobile VARCHAR(32) NOT NULL COMMENT '注册的手机号',
@@ -21,6 +21,23 @@ CREATE TABLE reg_sms_vcode(
   KEY idx_mobile_vcode (mobile,vcode)
 );
 
+#应用表
+DROP TABLE IF EXISTS app_service;
+CREATE TABLE app_service (
+  app_id BIGINT NOT NULL AUTO_INCREMENT COMMENT '应用id，自增',
+  app_code VARCHAR(64) NOT NULL COMMENT '应用的编号，一般是取MD5',
+  app_type SMALLINT NOT NULL DEFAULT 1 COMMENT '应用类型 1-短信，2-OCR，3-大数据',
+  app_ip VARCHAR(64)  NOT NULL COMMENT '',
+  app_desc VARCHAR(128) NULL COMMENT '',
+  app_key VARCHAR(128) NOT NULL COMMENT '',
+  creator_id BIGINT NOT NULL COMMENT '',
+  created_time DATETIME NOT NULL DEFAULT NOW() COMMENT '',
+
+  PRIMARY KEY (app_id),
+  UNIQUE KEY idx_app_code(app_code)
+);
+
+#企业表
 DROP TABLE IF EXISTS merchant;
 CREATE TABLE `merchant` (
   `merchant_id` bigint(20) NOT NULL AUTO_INCREMENT,
