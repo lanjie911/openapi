@@ -159,6 +159,9 @@ let vueInstance = new Vue({
         },
         onUploadOK: function(res,file){
             console.log(res);
+            if(res.rs == "OK"){
+                this.realName.person.idImgSrc = "/"+res.filepath.substr(7);
+            }
         }
     }
 });

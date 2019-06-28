@@ -15,7 +15,7 @@ el-tab-pane(label="实名认证" name="4" style="overflow:scroll;height:400px;")
     el-row(style="margin-bottom:10px;")
         el-col(:span="8") &nbsp;
         el-col(:span="8")
-            el-upload(class="avatar-uploader" action="/upload" :data="realName.uploadData" :show-file-list="false" :on-success="onUploadOK" :before-upload="beforeUpload")
+            el-upload(class="avatar-uploader" action="/upload/person" :data="realName.uploadData" :show-file-list="false" :on-success="onUploadOK" :before-upload="beforeUpload" :limit="1" name="pidImg")
                 el-image(v-if="realName.person.idImgSrc" class="avatar" :src="realName.person.idImgSrc" fit="contain")
                 i(v-else class="el-icon-plus avatar-uploader-icon")
         el-col(:span="8") &nbsp;
