@@ -8,14 +8,14 @@ let pool = mysql.createPool({
     database: 'openapi'
 });
 
-exports.format = function(sql, arr){
-    return mysql.format(sql,arr,true);
+exports.format = function (sql, arr) {
+    return mysql.format(sql, arr, true);
 };
 
 exports.query = function (sql, arr, callback) {
     // 打印
-    let tempStr = mysql.format(sql,arr,true);
-    console.info("[SQL FORMATTED]:%s",tempStr);
+    let tempStr = mysql.format(sql, arr, true);
+    console.info("[SQL FORMATTED]:%s", tempStr);
     //建立链接
     pool.getConnection(function (err, connection) {
         if (err) { throw err; return; }
@@ -28,6 +28,25 @@ exports.query = function (sql, arr, callback) {
         });
     });
 };
+
+exports.syncQuery = function (sql, arr) {
+    let iPro = new Promise(function (resolve, reject) {
+        pool.getConnection(function (err, connection) {
+            if (err) { reject(err); return; }
+            connection.query(sql, arr, function (error, results, fields) {
+                //将链接返回到连接池中，准备由其他人重复使用
+                pool.releaseConnection(connection);
+                if (error) {
+                    reject(error);
+                    return;
+                }
+                resolve(results);
+                return;
+            });
+        });
+    });
+    return iPro;
+}
 
 exports.insert = function (sql, arr, callback, errHandler) {
     //建立链接

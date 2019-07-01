@@ -18,7 +18,8 @@ el-tab-pane(label="实名认证" name="4" style="overflow:scroll;height:400px;")
             el-upload(class="avatar-uploader" action="/upload/person" :data="realName.uploadData" :show-file-list="false" :on-success="onUploadOK" :before-upload="beforeUpload" :limit="1" name="pidImg")
                 el-image(v-if="realName.person.idImgSrc" class="avatar" :src="realName.person.idImgSrc" fit="contain")
                 i(v-else class="el-icon-plus avatar-uploader-icon")
-        el-col(:span="8") &nbsp;
+        el-col(:span="8" style="align:bottom")
+            el-button(@click="personAudit") 提交审核
     el-row(style="border-bottom:1px solid #DDDDDD;margin:10px 10px 10px 10px")
         el-col(:span="24")
             el-link(type="primary") 企业开发者认证

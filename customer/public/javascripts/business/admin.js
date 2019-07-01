@@ -138,30 +138,58 @@ let vueInstance = new Vue({
             this.appPanel.isShow = true;
         },
         // 处理文件上传
-        beforeUpload: function(file){
+        beforeUpload: function (file) {
             let append = file.type;
             let a = (append == "image/png");
             let b = (append == "image/jpg");
             let c = (append == "image/jpeg");
-            let d = a||b||c;
-            if(!d){
-                showWarnDialog(this,"图片只能是png|jpg|jpeg格式");
+            let d = a || b || c;
+            if (!d) {
+                showWarnDialog(this, "图片只能是png|jpg|jpeg格式");
                 return false;
             }
 
             let fz = file.size / 1024 / 1024;
-            if(fz > 1){
-                showWarnDialog(this,"图片最大不能超过1M");
+            if (fz > 1) {
+                showWarnDialog(this, "图片最大不能超过1M");
                 return false;
             }
-            
+
             return true;
         },
-        onUploadOK: function(res,file){
+        onUploadOK: function (res, file) {
             console.log(res);
-            if(res.rs == "OK"){
-                this.realName.person.idImgSrc = "/"+res.filepath.substr(7);
+            if (res.rs == "OK") {
+                this.realName.person.idImgSrc = "/" + res.filepath.substr(7);
             }
+        },
+        // 个人审核
+        personAudit: function () {
+            let pname = this.realName.person.name.trim();
+            let pid = this.realName.person.idNo.trim();
+            let psrc = this.realName.person.idImgSrc.trim();
+            if (pname == "") {
+                showWarnDialog(this, "请输入姓名");
+                return;
+            }
+            if (pid == "") {
+                showWarnDialog(this, "请输入身份证号码");
+                return;
+            }
+            if (psrc == "") {
+                showWarnDialog(this, "请上传身份证图片");
+                return;
+            }
+            axios.post('/audit/person_promote', {
+                pname: pname,
+                pid: pid,
+                psrc: psrc
+            }).then(function (resp) {
+                let rsdata = resp.data;
+                vueInstance.handleRespArray(rsdata);
+            }).catch(resp => {
+                console.log('请求失败：' + resp.status + ',' + resp.statusText);
+            });
         }
     }
 });

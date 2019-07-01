@@ -41,6 +41,7 @@ var accessLogStream = FileStreamRotator.getStream({
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uloadRouter = require('./routes/upload');
+var auditRouter = require('./routes/audit');
 var adminRouter = require('./routes/admin/admin');
 var regisRouter = require('./routes/regis/regis');
 
@@ -84,6 +85,7 @@ app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 app.use('/regis', regisRouter);
 app.use('/upload', uloadRouter);
+app.use('/audit', auditRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

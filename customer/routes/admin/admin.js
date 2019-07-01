@@ -62,8 +62,15 @@ router.post('/qry_app_list', function (req, res, next) {
     let sql = "SELECT * FROM app_service";
     let paras = [];
 
-    dbUtil.query(sql,paras,function(rs,flds){
+    let rpo = dbUtil.syncQuery(sql,paras);
+    rpo.then((rs)=>{
+        console.info("******************");
+        jsonRs.rs = rs;
         res.json(rs);
+    }).catch((err)=>{
+        console.info("---------------------------------");
+        jsonRs.rs = "ERROR";
+        res.json(jsonRs);
     });
 });
 
