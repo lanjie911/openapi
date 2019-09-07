@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    title=title
+    link(rel='stylesheet', href='/stylesheets/mui/mui.min.css')
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no")
+  body
+    header(class="mui-bar mui-bar-nav")
+      h1(class="mui-title") 聚合开发者平台
+    div(class="mui-content" style="margin-top:20px")
+      form(id='login-form' class="mui-input-group")
+        div(class="mui-input-row")
+          label 账号
+          input(id='account' type="text" class="mui-input-clear mui-input" placeholder="手机号" maxlength="11")
+        div(class="mui-input-row")
+          label 密码
+          input(id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码" maxlength="16")
+    div(class="mui-content-padded" style="margin-top:25px")
+      button(id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary") 登录
+      div(class="link-area" style="text-align:center")
+        a(onclick="regCustomer()") 注册账号
+        span(style="color: #bbb; padding: 0px 8px;") |
+        a(id='forgetPassword') 忘记密码
+    script(src="/javascripts/mui/mui.min.js")
+    script(type="text/javascript").
+      mui.init({
+        statusBarBackground: '#9defbcg'
+      });
+      function regCustomer(){
+        mui.openWindow({
+          url:"/regis",
+          id:"regis_page"
+        });
+      }
+    
+

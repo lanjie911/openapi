@@ -38,7 +38,8 @@ var accessLogStream = FileStreamRotator.getStream({
 
 // 这里我们规定了两个路由
 // 在实际中，如果有多个路由，在这里定义
-var indexRouter = require('./routes/index');
+// var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/customer');
 var usersRouter = require('./routes/users');
 var uloadRouter = require('./routes/upload');
 var auditRouter = require('./routes/audit');
