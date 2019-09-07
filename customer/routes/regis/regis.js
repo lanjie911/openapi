@@ -6,7 +6,7 @@ let validator = require("../../util/util");
 
 /* GET regis listing. */
 router.get('/', function (req, res, next) {
-    res.render('register/regis', { title: '开放平台注册' });
+    res.render('register/regcus', { title: '开放平台注册' });
 });
 
 /**

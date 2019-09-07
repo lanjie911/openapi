@@ -1,0 +1,54 @@
+doctype html
+html
+  head
+    title=title
+    link(rel='stylesheet', href='/stylesheets/mui/mui.min.css')
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no")
+  body
+    header(class="mui-bar mui-bar-nav")
+      h1(class="mui-title") #{title}
+    div(class="mui-content" style="margin-top:20px")
+      form(id='login-form' class="mui-input-group")
+        div(class="mui-input-row")
+          label 账号
+          input(id='account' type="text" class="mui-input-clear mui-input" placeholder="手机号" maxlength="11")
+        div(class="mui-input-row")
+          input(id='vcode' type="text" class="mui-input-clear mui-input" placeholder="图形验证码" maxlength="6" style="width:40%")
+          a(href="#" onclick="refreshImg()")
+            image(style="height:30px;width:94px;", src="/vcode" fit="contain" id="vlimage")
+        div(class="mui-input-row")
+          input(id='smscode' type="text" class="mui-input-clear mui-input" placeholder="短信验证码" maxlength="6" style="width:40%")
+          a() 发送短信
+        div(class="mui-input-row")
+          label 密码
+          input(id='password1' type="password" class="mui-input-clear mui-input" placeholder="请输入密码" maxlength="16")
+        div(class="mui-input-row")
+          label 确认密码
+          input(id='password2' type="password" class="mui-input-clear mui-input" placeholder="请输入密码" maxlength="16")
+    div(class="mui-content-padded" style="margin-top:25px")
+      button(id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary") 注册
+      div(class="link-area" style="text-align:center")
+        a(onclick="regCustomer()") 返回
+    div(style="margin-top:25px; margin-left:15px;")
+      p 请先根据图形验证码发送短信验证码
+      p 发送短信验证码之后图形验证码会变化
+      p 请注意及时更新
+      
+    script(src="/javascripts/mui/mui.min.js")
+    script(type="text/javascript").
+      mui.init({
+        statusBarBackground: '#9defbcg'
+      });
+      function refreshImg(){
+        var tmstamp = (new Date()).getTime();
+        mui("#vlimage")[0].src = "/vcode?rand="+tmstamp;
+      }
+      function regCustomer(){
+        mui.openWindow({
+          url:"/",
+          id:"idx_page"
+        });
+      }
+    
+

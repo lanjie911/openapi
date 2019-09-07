@@ -6,7 +6,7 @@ let dbUtil = require("../dao/dbdao");
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.redirect("/custo");
 });
 
 /**
