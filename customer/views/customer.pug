@@ -17,12 +17,13 @@ html
           label 密码
           input(id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码" maxlength="16")
     div(class="mui-content-padded" style="margin-top:25px")
-      button(id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary") 登录
+      button(id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary" onclick="login()") 登录
       div(class="link-area" style="text-align:center")
         a(onclick="regCustomer()") 注册账号
         span(style="color: #bbb; padding: 0px 8px;") |
         a(id='forgetPassword') 忘记密码
     script(src="/javascripts/mui/mui.min.js")
+    script(src="/javascripts/util.js")
     script(type="text/javascript").
       mui.init({
         statusBarBackground: '#9defbcg'
@@ -31,6 +32,36 @@ html
         mui.openWindow({
           url:"/regis",
           id:"regis_page"
+        });
+      }
+      function login(){
+        let acc = mui("#account")[0].value;
+        if(!REGUtil.checkPhone(acc)){
+          mui.toast('请输入正确的手机号',{ duration:'short', type:'div' });
+          return;
+        }
+        let pwd = mui("#password")[0].value;
+        if(!REGUtil.checkPasswd(pwd)){
+          mui.toast('密码为8-16位的字母或数字',{ duration:'short', type:'div' });
+          return;
+        }
+        let rand = REGUtil.generateRand();
+        mui.ajax("/custo/login?rand"+rand+"&acc="+acc+"&pwd="+pwd,{
+          error:function(xhr,type,thr){
+            alert(thr);
+          },
+          success: function(resp,stat,xhr){
+            if("OK" == resp.rs){
+              mui.openWindow({
+                url:"/custo/maintab",
+                id:"main_tab_page"
+              });
+            }else{
+              mui.toast('用户名或密码错误',{ duration:'short', type:'div' });
+            }
+          },
+          dataType: "json",
+          timeout: 6000
         });
       }
     

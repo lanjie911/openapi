@@ -1,0 +1,67 @@
+doctype html
+html
+  head
+    title=title
+    link(rel='stylesheet', href='/stylesheets/mui/mui.min.css')
+    link(rel='stylesheet', href='/stylesheets/maintab.css')
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no")
+    meta(name="apple-mobile-web-app-capable" content="yes")
+    meta(name="apple-mobile-web-app-status-bar-style" content="black")
+  body
+    header(class="mui-bar mui-bar-nav")
+      a(id="menu" class="mui-action-menu mui-icon mui-icon-bars mui-pull-right" href="#topPopover")
+      h1(class="mui-title" id="func_title") 管控
+    nav(class="mui-bar mui-bar-tab")
+      a(id="a_contr" class="mui-tab-item mui-active" href="#tabbarcontrol")
+        span(class="mui-icon mui-icon-home")
+        span(class="mui-tab-label") 管控
+      a(id="a_msgc" class="mui-tab-item" href="#tabbarmail")
+        span(class="mui-icon mui-icon-email")
+        span(class="mui-tab-label") 消息中心
+      a(id="a_mine" class="mui-tab-item" href="#tabbarmine")
+        span(class="mui-icon mui-icon-gear")
+        span(class="mui-tab-label") 我的
+    div(class="mui-content")
+      div(id="tabbarcontrol" class="mui-control-content mui-active mui-content-padded")
+        p popover（弹出菜单）是mobile App中常见的UI组件，在用户点击位置附近弹出悬浮菜单，向用户展示更多信息或提供快捷操作
+      div(id="tabbarmail" class="mui-control-content mui-content-padded")
+        p 消息中心
+      div(id="tabbarmine" class="mui-control-content mui-content-padded")
+        p 我的我的我的
+    div(id="topPopover" class="mui-popover")
+      div(class="mui-popover-arrow")
+      div(class="mui-scroll-wrapper")
+      div(class="mui-scroll")
+        ul(class="mui-table-view")
+          li(class="mui-table-view-cell")
+            a(href="#" onclick="qryAccount()") 设置
+          li(class="mui-table-view-cell")
+            a(href="#" onclick="quit();") 退出
+    script(src="/javascripts/mui/mui.min.js")
+    script(src="/javascripts/util.js")
+    script(type="text/javascript").
+      mui.init({
+        statusBarBackground: '#9defbcg'
+      });
+      mui.ready(function(){
+        mui("#a_contr")[0].addEventListener("tap",function(){
+          mui("#func_title")[0].innerHTML = "管控";
+        });
+        mui("#a_msgc")[0].addEventListener("tap",function(){
+          mui("#func_title")[0].innerHTML = "消息中心";
+        });
+        mui("#a_mine")[0].addEventListener("tap",function(){
+          mui("#func_title")[0].innerHTML = "我的";
+        });
+      });
+      function qryAccount(){
+        alert(100);
+      }
+      function quit(){
+        mui.openWindow({
+          url:"/custo/quit",
+          id:"quit_to_index"
+        });
+      }
+      

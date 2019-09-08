@@ -1,0 +1,23 @@
+.mui-plus .plus{
+    display: inline;
+}
+
+.plus{
+    display: none;
+}
+
+#topPopover {
+    position: fixed;
+    top: 16px;
+    right: 6px;
+}
+#topPopover .mui-popover-arrow {
+    left: auto;
+    right: 6px;
+}
+
+/**
+* 去掉告警chrome
+* Unable to preventDefault inside passive event listener
+*/
+* { touch-action: pan-y; } 

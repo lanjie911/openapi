@@ -22,5 +22,14 @@ let REGUtil = {
             return true;
         }
         return false;
+    },
+    checkPasswd: function(strPassword){
+        if ((/^[a-zA-Z0-9]{8,16}$/.test(strPassword))) {
+            return true;
+        }
+        return false;
+    },
+    generateRand: function(){
+        return (new Date()).getTime();
     }
 };
