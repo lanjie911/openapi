@@ -24,9 +24,9 @@ html
         span(class="mui-tab-label") 我的
     div(class="mui-content")
       div(id="tabbarcontrol" class="mui-control-content mui-active mui-content-padded")
-        p popover（弹出菜单）是mobile App中常见的UI组件，在用户点击位置附近弹出悬浮菜单，向用户展示更多信息或提供快捷操作
-      div(id="tabbarmail" class="mui-control-content mui-content-padded")
-        p 消息中心
+        include control
+      div(id="tabbarmail" class="mui-control-content")
+        include news
       div(id="tabbarmine" class="mui-control-content mui-content-padded")
         p 我的我的我的
     div(id="topPopover" class="mui-popover")
@@ -40,6 +40,7 @@ html
             a(href="#" onclick="quit();") 退出
     script(src="/javascripts/mui/mui.min.js")
     script(src="/javascripts/util.js")
+    script(src="/javascripts/cus.js")
     script(type="text/javascript").
       mui.init({
         statusBarBackground: '#9defbcg'
