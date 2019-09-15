@@ -1,46 +1,49 @@
 div(class="mui-content")
   p 个人实名状态:
     span(id="pvtext")
-    case pvrecord.audit_stat
-        when 0
-          | 未审核
-        when 1
-          | 审核中
-        when 2
-          | 审核通过
-        when 3
-          | 审核拒绝
-        default
-          | 0
+    if pvrecord
+      case pvrecord.audit_stat
+          when 0
+            | 未审核
+          when 1
+            | 审核中
+          when 2
+            | 审核通过
+          when 3
+            | 审核拒绝
+          default
+            | 0
+    else
+        | 未审核
   form(class="mui-input-group" style="padding-top:10px")
     table(style="width:100%")
       tr
         td
           div(style="text-align:center")
-            if pvrecord.person_id_url_0
+            if(pvrecord)
               a(class="a-upload" style="background-image:url('/person/"+pvrecord.person_id_url_0+"');background-size:contain") + 
             else
-              a(class="a-upload" style="background-size:contain") + 
-              input(id="p-id-0" type="file" accept="image/*" onchange="changePic(this)")
-            p 身份证正面
+              a(class="a-upload" style="background-size:contain") +
+                input(id="p-id-0" type="file" accept="image/*" onchange="changePic(this)")
+              p 身份证正面
         td
           div(style="text-align:center")
-            if pvrecord.person_id_url_1
+            if(pvrecord)
               a(class="a-upload" style="background-image:url('/person/"+pvrecord.person_id_url_1+"');background-size:contain") + 
             else
               a(class="a-upload" style="background-size:contain") + 
-              input(id="p-id-0" type="file" accept="image/*" onchange="changePic(this)")
-            p 身份证反面
+                input(id="p-id-1" type="file" accept="image/*" onchange="changePic(this)")
+              p 身份证反面
         td
           div(style="text-align:center")
-            if pvrecord.person_id_url_2
+            if(pvrecord && pvrecord.person_id_url_2)
               a(class="a-upload" style="background-image:url('/person/"+pvrecord.person_id_url_2+"');background-size:contain") + 
             else
               a(class="a-upload" style="background-size:contain") + 
-              input(id="p-id-0" type="file" accept="image/*" onchange="changePic(this)")
-            p 手执身份证
+                input(id="p-id-2" type="file" accept="image/*" onchange="changePic(this)")
+              p 手执身份证
     div(style="width:100%;text-align:center;padding-bottom:10px;")
-      if(pvrecord.audit_stat == 0 || pvrecord.audit_stat==3)
+      if(pvrecord && (pvrecord.audit_stat == 0 || pvrecord.audit_stat==3))
         button(type="button" class="mui-btn" onclick="submitPerson(this);") 提交认证
       else
         button(type="button" class="mui-btn" disabled) 提交认证
