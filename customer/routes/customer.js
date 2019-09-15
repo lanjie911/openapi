@@ -19,7 +19,7 @@ router.get('/login', function (req, res, next) {
 
   let qryString = "SELECT user_id FROM reg_user WHERE mobile=? AND passwd=?";
   let qryParams = [acc, pwd];
-  console.info("[FORMATTED SQL]:%s",dbUtil.format(qryString,qryParams));
+  console.info("[FORMATTED SQL]:%s", dbUtil.format(qryString, qryParams));
 
   let callbackfunc = function (rs, fds) {
     if (rs && rs.length > 0) {
@@ -31,7 +31,7 @@ router.get('/login', function (req, res, next) {
       res.json({ rs: 'OK', "user": req.session.loginUser });
       return;
     }
-    res.json({ rs: 'NO', "user": ""});
+    res.json({ rs: 'NO', "user": "" });
     return;
   };
 
@@ -42,11 +42,35 @@ router.get('/login', function (req, res, next) {
  * 登录成功去主页面
  */
 router.get('/maintab', function (req, res, next) {
-  res.render('customer/maintab', { title: '聚合信息开发者平台' });
+  if (!req.session.loginUser) {
+    res.redirect("/");
+  }
+
+  //查审核状态
+  let qryString = "select * from real_name_p_verify where creator_id = ?;";
+  let qryParams = [req.session.loginUser.userID];
+  console.info("[FORMATTED SQL]:%s", dbUtil.format(qryString, qryParams));
+
+  let callbackfunc = function (rs, fds) {
+    if (rs && rs.length > 0) {
+      // 有审核记录
+      let record = rs[0];
+      res.render('customer/maintab', { pvrecord: record,go:100 });
+    } else {
+      // 没有审核记录
+      res.render('customer/maintab', null);
+    }
+    return;
+  };
+
+  dbUtil.query(qryString, qryParams, callbackfunc);
 });
 
 router.get('/quit', function (req, res, next) {
-  res.render('customer', { title: '聚合信息开发者平台' });
+  req.session.destroy(function (err) {
+    console.info("Session Destroied");
+  });
+  res.redirect("/");
 });
 
 module.exports = router;

@@ -36,13 +36,13 @@ let uploade = multer({
 
 let m_storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'upload/person')
+    cb(null, 'store/person')
   },
   filename: function (req, file, cb) {
     let fileType = file.mimetype.substr(6);
     let user_id = req.session.loginUser.userID;
-    let newFileName = file.fieldname + '-' + user_id +"."+fileType;
-    console.log(file.fieldname+"===="+newFileName);
+    let newFileName = file.fieldname + '-' + user_id + "." + fileType;
+    console.log(file.fieldname + "====" + newFileName);
     cb(null, newFileName);
   }
 })
@@ -62,51 +62,64 @@ let uploadCus = multer({
     // 处理文件写入
     callback(null, true);
   }
-});
+}).any();
 
-router.post('/custup', uploadCus.any(), function (req, res, next) {
+router.post('/custup', function (req, res, next) {
 
-  if (!req.session.loginUser) {
-    res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL 1" });
-    return;
-  }
+  uploadCus(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // 发生错误
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL -1" });
+      return;
+    } else if (err) {
+      // 发生错误
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL -2" });
+      return;
+    }
 
-  if (!req.files) {
-    res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL 2" });
-    return;
-  }
-
-  console.log("FILE COUNT IS "+req.files.length);
-  if (req.files.length < 3) {
-    res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL 3" });
-    return;
-  }
+    // 一切顺利
+    if (!req.session.loginUser) {
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL 1" });
+      return;
+    }
   
-  // 写入数据库
-  let sql = "INSERT INTO real_name_p_verify (person_id_url_0,person_id_url_1,person_id_url_2,creator_id,audit_stat)VALUES(?,?,?,?,?)";
-  let parray = [];
-  let user_id = req.session.loginUser.userID;
-
-  for(var i=0;i<req.files.length;i++){
-    let f = req.files[i];
-    let fileType = f.mimetype.substr(6);
-    let newFileName = f.fieldname + '-' + user_id +"."+fileType;
-    if(f.fieldname == "p-id-0"){
-      parray[0] = newFileName;
+    if (!req.files) {
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL 2" });
+      return;
     }
-    if(f.fieldname == "p-id-1"){
-      parray[1] = newFileName;
+  
+    console.log("FILE COUNT IS " + req.files.length);
+    if (req.files.length < 3) {
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL 3" });
+      return;
     }
-    if(f.fieldname == "p-id-2"){
-      parray[2] = newFileName;
+  
+    // 写入数据库
+    let sql = "INSERT INTO real_name_p_verify (person_id_url_0,person_id_url_1,person_id_url_2,creator_id,audit_stat)VALUES(?,?,?,?,?)";
+    let parray = [];
+    let user_id = req.session.loginUser.userID;
+  
+    for (var i = 0; i < req.files.length; i++) {
+      let f = req.files[i];
+      let fileType = f.mimetype.substr(6);
+      let newFileName = f.fieldname + '-' + user_id + "." + fileType;
+      if (f.fieldname == "p-id-0") {
+        parray[0] = newFileName;
+      }
+      if (f.fieldname == "p-id-1") {
+        parray[1] = newFileName;
+      }
+      if (f.fieldname == "p-id-2") {
+        parray[2] = newFileName;
+      }
     }
-  }
-  parray[3] = user_id;
-  parray[4] = 1;
-
-  dbUtil.query(sql,parray,function(results,fields){
-    res.json({rs:"OK",text:"200"});
-  });
+    parray[3] = user_id;
+    parray[4] = 1;
+  
+    dbUtil.query(sql, parray, function (results, fields) {
+      res.json({ rs: "OK", text: "200" });
+    });
+  })
 });
 
 router.post('/enterprise', uploade.single('eidImg'), function (req, res, next) {
@@ -120,7 +133,7 @@ router.post('/enterprise', uploade.single('eidImg'), function (req, res, next) {
   let fileType = req.file.mimetype.substr(6);
   let fileNewName = "upload/enterprise/" + fileName + "." + fileType;
 
-  fs.rename('upload/enterprise/'+fileName,fileNewName,function(err){
+  fs.rename('upload/enterprise/' + fileName, fileNewName, function (err) {
     console.log(err);
   });
 

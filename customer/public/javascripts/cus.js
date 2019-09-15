@@ -8,7 +8,7 @@ function changePic(evt) {
    aEl.style.backgroundImage = "url(" + dataURL + ")";
 }
 
-function submitPerson() {
+function submitPerson(ele) {
    var formdata = new FormData();
    formdata.append('p-id-0', mui('#p-id-0')[0].files[0]);
    formdata.append('p-id-1', mui('#p-id-1')[0].files[0]);
@@ -20,8 +20,15 @@ function submitPerson() {
       contentType: false,
       data: formdata,
       processData: false,
-      success: function (info) {
-         console.log(info);
+      success: function (resp) {
+         if(resp.rs == "OK"){
+            //上传成功
+            mui.toast('上传成功，等待审核',{ duration:'short', type:'div' });
+            ele.disabled = true;
+            mui("#pvtext")[0].innerHTML = "审核中";
+         }else{
+            mui.toast('文件上传失败',{ duration:'short', type:'div' });
+         }
       },
       error: function (err) {
          console.log(err)
