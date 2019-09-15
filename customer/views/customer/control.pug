@@ -43,7 +43,7 @@ div(class="mui-content")
                 input(id="p-id-2" type="file" accept="image/*" onchange="changePic(this)")
               p 手执身份证
     div(style="width:100%;text-align:center;padding-bottom:10px;")
-      if(pvrecord && (pvrecord.audit_stat == 0 || pvrecord.audit_stat==3))
+      if(!pvrecord || (pvrecord.audit_stat == 0 || pvrecord.audit_stat==3))
         button(type="button" class="mui-btn" onclick="submitPerson(this);") 提交认证
       else
         button(type="button" class="mui-btn" disabled) 提交认证
