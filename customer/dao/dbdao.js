@@ -29,25 +29,6 @@ exports.query = function (sql, arr, callback) {
     });
 };
 
-exports.syncQuery = function (sql, arr) {
-    let iPro = new Promise(function (resolve, reject) {
-        pool.getConnection(function (err, connection) {
-            if (err) { reject(err); return; }
-            connection.query(sql, arr, function (error, results, fields) {
-                //将链接返回到连接池中，准备由其他人重复使用
-                pool.releaseConnection(connection);
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve(results);
-                return;
-            });
-        });
-    });
-    return iPro;
-}
-
 exports.insert = function (sql, arr, callback, errHandler) {
     //建立链接
     pool.getConnection(function (err, connection) {

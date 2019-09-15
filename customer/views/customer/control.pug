@@ -5,21 +5,21 @@ div(class="mui-content")
       tr
         td
           div(style="text-align:center")
-            a(class="a-upload" style="background-image:url(/images/idexample.jpeg);background-size:contain") + 
-              input(type="file" accept="image/*" onchange="changePic(this)")
+            a(class="a-upload" style="background-size:contain") + 
+              input(id="p-id-0" type="file" accept="image/*" onchange="changePic(this)")
             p 身份证正面
         td
           div(style="text-align:center")
-            a(class="a-upload") + 
-              input(type="file" accept="image/*")
+            a(class="a-upload" style="background-size:contain") + 
+              input(id="p-id-1" type="file" accept="image/*" onchange="changePic(this)")
             p 身份证反面
         td
           div(style="text-align:center")
-            a(class="a-upload") + 
-              input(type="file" accept="image/*")
+            a(class="a-upload" style="background-size:contain") + 
+              input(id="p-id-2" type="file" accept="image/*" onchange="changePic(this)")
             p 手执身份证
     div(style="width:100%;text-align:center;padding-bottom:10px;")
-      button(type="button" class="mui-btn") 提交认证
+      button(type="button" class="mui-btn" onclick="submitPerson();") 提交认证
 div(style="height:20px;")
 div(class="mui-content")
   p 企业实名状态:未实名
@@ -28,23 +28,23 @@ div(class="mui-content")
       tr
         td
           div(style="text-align:center")
-            a(class="a-upload" style="background-image:url(/images/idexample.jpeg);background-size:contain") + 
+            a(class="a-upload" style="background-size:contain") + 
               input(type="file" accept="image/*" onchange="changePic(this)")
             p 法人身份证正面
         td
           div(style="text-align:center")
-            a(class="a-upload") + 
-              input(type="file" accept="image/*")
+            a(class="a-upload" style="background-size:contain") + 
+              input(type="file" accept="image/*" onchange="changePic(this)")
             p 法人身份证反面
         td
           div(style="text-align:center")
-            a(class="a-upload") + 
-              input(type="file" accept="image/*")
+            a(class="a-upload" style="background-size:contain") + 
+              input(type="file" accept="image/*" onchange="changePic(this)")
             p 经办人手执身份证 
       tr
         td(colspan="3")
           div(style="text-align:center")
-            a(class="a-upload" style="background-image:url(/images/yyzz.jpeg);background-size:contain;height:85px;width:54px;line-height:70px;") + 
+            a(class="a-upload" style="background-size:contain;height:85px;width:54px;line-height:70px;") + 
               input(type="file" accept="image/*" onchange="changePic(this)")
             p 企业营业执照 
     div(style="width:100%;text-align:center;padding-bottom:10px;")

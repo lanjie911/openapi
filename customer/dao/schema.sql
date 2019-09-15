@@ -1,3 +1,7 @@
+CREATE USER 'apiuser'@'localhost' IDENTIFIED BY 'apiuser123!';
+CREATE DATABASE `openapi` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+grant all privileges on openapi.* to 'apiuser'@'localhost';
+
 #注册用户表
 DROP TABLE IF EXISTS reg_user;
 CREATE TABLE reg_user(
@@ -41,13 +45,13 @@ CREATE TABLE app_service (
 DROP TABLE IF EXISTS real_name_p_verify;
 CREATE TABLE real_name_p_verify(
   real_id BIGINT NOT NULL AUTO_INCREMENT COMMENT '',
-  person_name VARCHAR(32) NULL COMMENT '身份证上的名字',
-  person_id   VARCHAR(32) NULL COMMENT '身份证号码',
-  person_id_url VARCHAR(128) NULL COMMENT '身份证图片存储的路径',
+  person_id_url_0 VARCHAR(128) NULL COMMENT '身份证图片存储的路径',
+  person_id_url_1 VARCHAR(128) NULL COMMENT '身份证图片存储的路径',
+  person_id_url_2 VARCHAR(128) NULL COMMENT '身份证图片存储的路径',
   creator_id BIGINT NOT NULL COMMENT '申请人id',
   created_time DATETIME NOT NULL DEFAULT NOW() COMMENT '申请时间',
   auditor_id BIGINT NULL COMMENT '个人审核员id',
-  audit_stat SMALLINT NOT NULL DEFAULT 0 COMMENT '审核状态',
+  audit_stat SMALLINT NOT NULL DEFAULT 0 COMMENT '审核状态 0-未申请,1-申请中,2-申请拒绝,3-申请通过',
   audit_desc VARCHAR(128) NULL COMMENT '评语',
   audit_time DATETIME NULL COMMENT '审核时间',
 
