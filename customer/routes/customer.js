@@ -46,21 +46,32 @@ router.get('/maintab', function (req, res, next) {
     res.redirect("/");
   }
 
-  //查审核状态
+  //查个人审核状态
   let qryString = "select * from real_name_p_verify where creator_id = ?;";
   let qryParams = [req.session.loginUser.userID];
   console.info("[FORMATTED SQL]:%s", dbUtil.format(qryString, qryParams));
+
+  let mapresult = {};
 
   let callbackfunc = function (rs, fds) {
     if (rs && rs.length > 0) {
       // 有审核记录
       let record = rs[0];
-      res.render('customer/maintab', { pvrecord: record,go:100 });
-    } else {
-      // 没有审核记录
-      res.render('customer/maintab', null);
-    }
-    return;
+      mapresult.pvrecord = record;
+      mapresult.go = 100;
+      
+    }    
+    // 查看企业实名信息
+    qryString = "select * from real_name_e_verify where creator_id = ?;";
+    console.info("[FORMATTED SQL]:%s", dbUtil.format(qryString, qryParams));
+    dbUtil.query(qryString, qryParams, function(rs2,fds2){
+      if (rs2 && rs2.length > 0) {
+        // 有企业审核记录
+        mapresult.evrecord = rs2[0];
+        mapresult.to = 200;
+      }
+      res.render('customer/maintab', mapresult);
+    });
   };
 
   dbUtil.query(qryString, qryParams, callbackfunc);

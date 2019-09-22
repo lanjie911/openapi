@@ -47,10 +47,40 @@ let m_storage = multer.diskStorage({
   }
 })
 
+let e_storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'store/enterprise')
+  },
+  filename: function (req, file, cb) {
+    let fileType = file.mimetype.substr(6);
+    let user_id = req.session.loginUser.userID;
+    let newFileName = file.fieldname + '-' + user_id + "." + fileType;
+    console.log(file.fieldname + "====" + newFileName);
+    cb(null, newFileName);
+  }
+})
+
 let uploadCus = multer({
   storage: m_storage,
   limits: {
     files: 3,
+    fileSize: 512000
+  },
+  fileFilter: function (req, file, callback) {
+    if (!req.session.loginUser) {
+      // 没有session就不要传文件了
+      callback(null, false);
+      return;
+    }
+    // 处理文件写入
+    callback(null, true);
+  }
+}).any();
+
+let uploadEnt = multer({
+  storage: e_storage,
+  limits: {
+    files: 4,
     fileSize: 512000
   },
   fileFilter: function (req, file, callback) {
@@ -95,7 +125,7 @@ router.post('/custup', function (req, res, next) {
     }
   
     // 写入数据库
-    let sql = "INSERT INTO real_name_p_verify (person_id_url_0,person_id_url_1,person_id_url_2,creator_id,audit_stat)VALUES(?,?,?,?,?)";
+    let sql = "REPLACE INTO real_name_p_verify (person_id_url_0,person_id_url_1,person_id_url_2,creator_id,audit_stat)VALUES(?,?,?,?,?)";
     let parray = [];
     let user_id = req.session.loginUser.userID;
   
@@ -122,29 +152,67 @@ router.post('/custup', function (req, res, next) {
   })
 });
 
-router.post('/enterprise', uploade.single('eidImg'), function (req, res, next) {
+router.post('/enterup', function (req, res, next) {
 
-  if (!req.file) {
-    res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL" });
-    return;
-  }
+  uploadEnt(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // 发生错误
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL -1" });
+      return;
+    } else if (err) {
+      // 发生错误
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL -2" });
+      return;
+    }
 
-  let fileName = req.file.filename;
-  let fileType = req.file.mimetype.substr(6);
-  let fileNewName = "upload/enterprise/" + fileName + "." + fileType;
-
-  fs.rename('upload/enterprise/' + fileName, fileNewName, function (err) {
-    console.log(err);
-  });
-
-  // 返回结果
-  let resp = {};
-  resp.rs = "OK";
-  resp.text = "上传成功";
-  resp.filepath = fileNewName;
-  resp.filetype = fileType;
-
-  res.json(resp);
+    // 一切顺利
+    if (!req.session.loginUser) {
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL 1" });
+      return;
+    }
+  
+    if (!req.files) {
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL 2" });
+      return;
+    }
+  
+    console.log("FILE COUNT IS " + req.files.length);
+    if (req.files.length < 4) {
+      res.json({ rs: "ERROR", text: "FILE UPLOAD FAIL 4" });
+      return;
+    }
+  
+    // 写入数据库
+    let sql = "REPLACE INTO real_name_e_verify (enterprise_id_url_0,enterprise_id_url_1,enterprise_id_url_2,enterprise_id_url_3,creator_id,audit_stat)VALUES(?,?,?,?,?,?)";
+    let parray = [];
+    let user_id = req.session.loginUser.userID;
+  
+    for (var i = 0; i < req.files.length; i++) {
+      let f = req.files[i];
+      let fileType = f.mimetype.substr(6);
+      let newFileName = f.fieldname + '-' + user_id + "." + fileType;
+      if (f.fieldname == "e-id-0") {
+        parray[0] = newFileName;
+      }
+      if (f.fieldname == "e-id-1") {
+        parray[1] = newFileName;
+      }
+      if (f.fieldname == "e-id-2") {
+        parray[2] = newFileName;
+      }
+      if (f.fieldname == "e-id-3") {
+        parray[3] = newFileName;
+      }
+    }
+    parray[4] = user_id;
+    parray[5] = 1;
+  
+    dbUtil.query(sql, parray, function (results, fields) {
+      res.json({ rs: "OK", text: "200" });
+    });
+  })
 });
+
+
 
 module.exports = router;

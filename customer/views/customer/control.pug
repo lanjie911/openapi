@@ -22,6 +22,8 @@ div(class="mui-content")
           div(style="text-align:center")
             if(pvrecord)
               a(class="a-upload" style="background-image:url('/person/"+pvrecord.person_id_url_0+"');background-size:contain") + 
+                if(pvrecord.audit_stat == 3)
+                  input(id="p-id-0" type="file" accept="image/*" onchange="changePic(this)")
             else
               a(class="a-upload" style="background-size:contain") +
                 input(id="p-id-0" type="file" accept="image/*" onchange="changePic(this)")
@@ -30,6 +32,8 @@ div(class="mui-content")
           div(style="text-align:center")
             if(pvrecord)
               a(class="a-upload" style="background-image:url('/person/"+pvrecord.person_id_url_1+"');background-size:contain") + 
+                if(pvrecord.audit_stat == 3)
+                  input(id="p-id-1" type="file" accept="image/*" onchange="changePic(this)")
             else
               a(class="a-upload" style="background-size:contain") + 
                 input(id="p-id-1" type="file" accept="image/*" onchange="changePic(this)")
@@ -38,6 +42,8 @@ div(class="mui-content")
           div(style="text-align:center")
             if(pvrecord && pvrecord.person_id_url_2)
               a(class="a-upload" style="background-image:url('/person/"+pvrecord.person_id_url_2+"');background-size:contain") + 
+                if(pvrecord.audit_stat == 3)
+                  input(id="p-id-2" type="file" accept="image/*" onchange="changePic(this)")
             else
               a(class="a-upload" style="background-size:contain") + 
                 input(id="p-id-2" type="file" accept="image/*" onchange="changePic(this)")
@@ -49,33 +55,71 @@ div(class="mui-content")
         button(type="button" class="mui-btn" disabled) 提交认证
 div(style="height:20px;")
 div(class="mui-content")
-  p 企业实名状态:未实名
+  p 企业实名状态:
+    span(id="evtext")
+      if evrecord
+        case evrecord.audit_stat
+            when 0
+              | 未审核
+            when 1
+              | 审核中
+            when 2
+              | 审核通过
+            when 3
+              | 审核拒绝
+            default
+              | 0
+      else
+          | 未审核
   form(class="mui-input-group" style="padding-top:10px")
     table(style="width:100%")
       tr
         td
           div(style="text-align:center")
-            a(class="a-upload" style="background-size:contain") + 
-              input(type="file" accept="image/*" onchange="changePic(this)")
-            p 法人身份证正面
+            if(evrecord)
+              a(class="a-upload" style="background-image:url('/enterprise/"+evrecord.enterprise_id_url_0+"');background-size:contain") + 
+                if(evrecord.audit_stat == 3)
+                  input(id="e-id-0" type="file" accept="image/*" onchange="changePic(this)")
+            else
+              a(class="a-upload" style="background-size:contain") +
+                input(id="e-id-0" type="file" accept="image/*" onchange="changePic(this)")
+              p 法人身份证正面
         td
           div(style="text-align:center")
-            a(class="a-upload" style="background-size:contain") + 
-              input(type="file" accept="image/*" onchange="changePic(this)")
-            p 法人身份证反面
+            if(evrecord)
+              a(class="a-upload" style="background-image:url('/enterprise/"+evrecord.enterprise_id_url_1+"');background-size:contain") + 
+                if(evrecord.audit_stat == 3)
+                  input(id="e-id-1" type="file" accept="image/*" onchange="changePic(this)")
+            else
+              a(class="a-upload" style="background-size:contain") +
+                input(id="e-id-1" type="file" accept="image/*" onchange="changePic(this)")
+              p 法人身份证反面
         td
           div(style="text-align:center")
-            a(class="a-upload" style="background-size:contain") + 
-              input(type="file" accept="image/*" onchange="changePic(this)")
-            p 经办人手执身份证 
+            if(evrecord)
+              a(class="a-upload" style="background-image:url('/enterprise/"+evrecord.enterprise_id_url_2+"');background-size:contain") + 
+                if(evrecord.audit_stat == 3)
+                  input(id="e-id-2" type="file" accept="image/*" onchange="changePic(this)")
+            else
+              a(class="a-upload" style="background-size:contain") +
+                input(id="e-id-2" type="file" accept="image/*" onchange="changePic(this)")
+              p 经办人手执身份证
       tr
         td(colspan="3")
           div(style="text-align:center")
-            a(class="a-upload" style="background-size:contain;height:85px;width:54px;line-height:70px;") + 
-              input(type="file" accept="image/*" onchange="changePic(this)")
-            p 企业营业执照 
+            if(evrecord)
+              a(class="a-upload" style="background-image:url('/enterprise/"+evrecord.enterprise_id_url_3+"');background-size:contain;height:85px;width:54px;line-height:70px;") + 
+                if(evrecord.audit_stat == 3)
+                  input(id="e-id-3" type="file" accept="image/*" onchange="changePic(this)")
+            else
+              a(class="a-upload" style="background-size:contain;height:85px;width:54px;line-height:70px;") +
+                input(id="e-id-3" type="file" accept="image/*" onchange="changePic(this)")
+              p 企业营业执照
     div(style="width:100%;text-align:center;padding-bottom:10px;")
-      button(type="button" class="mui-btn") 提交认证
+      if(!evrecord || (evrecord.audit_stat == 0 || evrecord.audit_stat==3))
+        button(type="button" class="mui-btn" onclick="submitEnterprise(this);") 提交认证
+      else
+        button(type="button" class="mui-btn" disabled) 提交认证
 div(style="height:20px;")
 div(class="mui-content")
   p 单个文件最大512KB，仅支持png、jpg、jpeg和bmp格式文件
