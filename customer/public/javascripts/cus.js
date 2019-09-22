@@ -83,3 +83,11 @@ function submitEnterprise(ele) {
       }
    });
 }
+
+function openApiDoc(){
+   window.open("/sms-api.pdf");
+}
+
+function aboutJH(){
+   window.open("http://juhedx.com/");
+}
