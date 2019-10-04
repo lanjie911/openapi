@@ -1,0 +1,28 @@
+div(class="mui-content")
+  p 个人审核结果:
+    form(class="mui-input-group" style="padding:10px")
+        if pvrecord
+          span #{pvrecord.audit_desc}
+        else
+          span &nbsp;
+  p 企业审核结果:
+    form(class="mui-input-group" style="padding:10px")
+        if evrecord
+          span #{evrecord.audit_desc}
+        else
+          span &nbsp;
+  if((pvrecord && pvrecord.audit_stat == 2) || (evrecord && evrecord.audit_stat == 2) )
+    p 请在确保审核通过的情况下扫码充值
+    form(class="mui-input-group" style="padding:10px;text-align:center")
+      img(src="/images/zfb.jpg" style="width:150px;height:225px;")
+  p &nbsp;
+  p 客服联系方式:
+    form(class="mui-input-group" style="padding:10px")
+      table
+        tr
+          td(width="50") QQ:
+          td 251603032
+        tr
+          td 电话:
+          td 010-62958207
+    
