@@ -35,7 +35,7 @@ html
       div(class="mui-scroll")
         ul(class="mui-table-view")
           li(class="mui-table-view-cell")
-            a(href="#" onclick="betset()") 设置
+            a(href="#" onclick="betset()") 清除缓存
           li(class="mui-table-view-cell")
             a(href="#" onclick="quit();") 退出
     script(src="/javascripts/mui/mui.min.js")
@@ -57,7 +57,7 @@ html
         });
       });
       function betset(){
-        alert(100);
+        alert("缓存清除成功");
       }
       function quit(){
         mui.openWindow({
