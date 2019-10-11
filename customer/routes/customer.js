@@ -3,6 +3,7 @@ var router = express.Router();
 let md5Util = require("../util/md5");
 let vcodeUtil = require("../util/vcode");
 let dbUtil = require("../dao/dbdao");
+let ckUtil = require("../util/util");
 
 /* GET customer home page. */
 router.get('/', function (req, res, next) {
@@ -82,6 +83,42 @@ router.get('/quit', function (req, res, next) {
     console.info("Session Destroied");
   });
   res.redirect("/");
+});
+
+router.get('/new',function(req,res,next){
+  let scode = req.session.captcha;
+  let vcode = req.query.vcode;
+  if(vcode != scode){
+    console.log("ERROR VCode Of Regis scode is "+scode+" vcode is "+vcode);
+    res.json({rs:"FAIL",text:"验证码不一致"});
+    return;
+  }
+  let acc = req.query.acc;
+  if(!ckUtil.checkPhone(acc)){
+    res.json({rs:"FAIL",text:"注册账号不是手机号"});
+    return;
+  }
+  let pwd = req.query.pwd;
+  if(!ckUtil.checkPwd(pwd)){
+    res.json({rs:"FAIL",text:"密码格式不符合要求"});
+    return;
+  }
+  pwd = md5Util.md5(req.query.pwd);
+
+  let sql = "INSERT INTO reg_user (mobile,created_time,passwd)VALUES(?,NOW(),?)";
+  let paras = [acc,pwd];
+  try{
+    dbUtil.query(sql, paras, function(rs,fds){
+      if (rs) {
+        res.json({rs:"OK",text:"OK"});
+      }else{
+        res.json({rs:"FAIL",text:"SQL Error"});
+      }
+    });
+  }catch(e){
+    res.json({rs:"FAIL",text:"SQL ERROR"});
+  }
+
 });
 
 module.exports = router;

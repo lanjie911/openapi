@@ -21,7 +21,7 @@ html
       div(class="link-area" style="text-align:center")
         a(onclick="regCustomer()") 注册账号
         span(style="color: #bbb; padding: 0px 8px;") |
-        a(id='forgetPassword') 忘记密码
+        a(onclick='forgetPassword()') 忘记密码
     script(src="/javascripts/mui/mui.min.js")
     script(src="/javascripts/util.js")
     script(type="text/javascript").
@@ -33,6 +33,10 @@ html
           url:"/regis",
           id:"regis_page"
         });
+      }
+      function forgetPassword(){
+        alert("请联系管理员QQ:251603032,人工重置密码");
+        return;
       }
       function login(){
         let acc = mui("#account")[0].value;

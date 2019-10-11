@@ -6,6 +6,13 @@ let checkPhone = function (strPhoneNumber) {
     return false;
 };
 
+let checkPwd = function (strPwd) {
+    if ((/[a-zA-Z0-9\.\!\$\%\^\&\*\,\_\@\#]{8,16}$/.test(strPwd))) {
+        return true;
+    }
+    return false;
+};
+
 let generateVCode = function () {
     let a_code = "";
     let pt = 0;
@@ -22,3 +29,4 @@ let generateVCode = function () {
 
 exports.checkPhone = checkPhone;
 exports.generateVCode = generateVCode;
+exports.checkPwd = checkPwd;

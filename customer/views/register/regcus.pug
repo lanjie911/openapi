@@ -18,24 +18,21 @@ html
           a(href="#" onclick="refreshImg()")
             image(style="height:30px;width:94px;", src="/vcode" fit="contain" id="vlimage")
         div(class="mui-input-row")
-          input(id='smscode' type="text" class="mui-input-clear mui-input" placeholder="短信验证码" maxlength="6" style="width:40%")
-          a() 发送短信
-        div(class="mui-input-row")
           label 密码
           input(id='password1' type="password" class="mui-input-clear mui-input" placeholder="请输入密码" maxlength="16")
         div(class="mui-input-row")
           label 确认密码
           input(id='password2' type="password" class="mui-input-clear mui-input" placeholder="请输入密码" maxlength="16")
     div(class="mui-content-padded" style="margin-top:25px")
-      button(id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary") 注册
+      button(id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary" onclick="regUser()") 注册
       div(class="link-area" style="text-align:center")
         a(onclick="regCustomer()") 返回
     div(style="margin-top:25px; margin-left:15px;")
-      p 请先根据图形验证码发送短信验证码
-      p 发送短信验证码之后图形验证码会变化
+      p 请先根据图形验证码输入
       p 请注意及时更新
       
     script(src="/javascripts/mui/mui.min.js")
+    script(src="/javascripts/util.js")
     script(type="text/javascript").
       mui.init({
         statusBarBackground: '#9defbcg'
@@ -46,6 +43,49 @@ html
       }
       function regCustomer(){
         mui.back();
+      }
+      function regUser(){
+        var acc = mui("#account")[0].value;
+        if(!REGUtil.checkPhone(acc)){
+          alert("请输入正确的电话号码");
+          return;
+        }
+        var vc = mui("#vcode")[0].value;
+        if(!/^[a-zA-Z0-9]{5,6}$/.test(vc)){
+          alert("请输入正确的图形验证码");
+          return;
+        }
+        var pwd = mui("#password1")[0].value;
+        if(!/[a-zA-Z0-9\.\!\$\%\^\&\*\,\_\@\#]{8,16}$/.test(pwd)){
+          alert("请输入8-16位密码");
+          return;
+        }
+        var pwd2 = mui("#password2")[0].value;
+        if(pwd != pwd2){
+          alert("请保持密码和验证密码一致");
+          return;
+        }
+        let rand = REGUtil.generateRand();
+        mui.ajax("/custo/new?rand"+rand+"&acc="+acc+"&pwd="+pwd+"&vcode="+vc,{
+          error:function(xhr,type,thr){
+            alert(thr);
+          },
+          success: function(resp,stat,xhr){
+            console.log("after reg, rs is "+resp.rs);
+            if("OK" == resp.rs){
+              mui.toast('注册成功',{ duration:'short', type:'div' });
+              mui.openWindow({
+                url:"/",
+                id:"main_login"
+              });
+            }else{
+              mui.toast('注册失败，'+resp.text,{ duration:'short', type:'div' });
+              refreshImg();
+            }
+          },
+          dataType: "json",
+          timeout: 6000
+        });
       }
     
 
